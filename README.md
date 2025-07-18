@@ -6,7 +6,6 @@ YT-Ledger is a powerful Python script that uses `yt-dlp` to create a comprehensi
 
 -   **Batch Processing:** Process multiple YouTube playlists and single video URLs/IDs in one go.
 -   **Video Archiving:** Download videos, thumbnails, subtitles, and `.info.json` metadata files.
--   **Intelligent Archiving:** Uses an archive file to keep track of downloaded videos and avoid re-downloading.
 -   **High-Quality Downloads:** Automatically selects the best video and audio formats and merges them for resolutions like 1080p and higher.
 -   **Multi-Format Reporting:**
     -   **Excel (`.xlsx`):** A spreadsheet with video details and embedded thumbnails.
