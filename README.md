@@ -37,7 +37,7 @@ The project uses the DejaVu font family for its excellent Unicode support in PDF
 1.  **Clone the Repository:**
     ```bash
     git clone https://github.com/nathanfx330/YT-Ledger.git
-    cd yt-ledger
+    cd YT-Ledger
     ```
 
 2.  **Set up the Python Environment (choose one method):**
