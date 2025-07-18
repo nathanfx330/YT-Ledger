@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><!--REPORT_TITLE_PLACEHOLDER--></title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; background-color: #f4f4f9; color: #333; }
+        .container { max-width: 1300px; margin: 20px auto; padding: 20px; background-color: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        h1 { text-align: center; color: #c4302b; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: fixed; }
+        th, td { padding: 12px 10px; border: 1px solid #ddd; text-align: left; vertical-align: middle; word-wrap: break-word; }
+        th { background-color: #f8f8f8; font-weight: 600; }
+        tr:nth-child(even) { background-color: #fdfdfd; }
+        tr:hover { background-color: #f1f1f1; }
+        img { max-width: 120px; height: auto; border-radius: 4px; vertical-align: middle; }
+        a { color: #0056b3; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .video-title { font-weight: 500; }
+        .channel-name { font-style: italic; color: #555; }
+        .full-url-col { font-family: 'Courier New', Courier, monospace; font-size: 0.9em; color: #333; }
+        footer { text-align: center; margin-top: 20px; font-size: 0.9em; color: #777; }
+
+        @media print {
+            body { background-color: #fff; }
+            .container { max-width: 100%; margin: 0; padding: 0; border: none; box-shadow: none; }
+            a { color: #000; text-decoration: none; }
+            img { max-width: 100px; }
+            .local-file-link { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><!--REPORT_TITLE_PLACEHOLDER--></h1>
+        <table>
+            <colgroup>
+                <col style="width: 12%;">
+                <col style="width: 28%;">
+                <col style="width: 15%;">
+                <col style="width: 10%;">
+                <col style="width: 25%;">
+                <col style="width: 10%;">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Thumbnail</th>
+                    <th>Video Title</th>
+                    <th>Channel Name</th>
+                    <th>Upload Date</th>
+                    <th>Full YouTube URL</th>
+                    <th>Local File</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--VIDEO_ROWS_PLACEHOLDER-->
+            </tbody>
+        </table>
+        <footer>
+            <!--FOOTER_PLACEHOLDER-->
+        </footer>
+    </div>
+</body>
+</html>
