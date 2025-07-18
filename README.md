@@ -1,161 +1,194 @@
 YT-Ledger: YouTube Archival & Reporting Pipeline
 
-YT-Ledger is a powerful Python script that uses yt-dlp to create a comprehensive archival pipeline for YouTube playlists and individual videos. It fetches detailed metadata, optionally downloads the videos and subtitles, and generates professional, easy-to-read reports in XLSX, HTML, and PDF formats.
-Key Features
+YT-Ledger is a powerful Python script that uses yt-dlp to create a comprehensive archival pipeline for YouTube playlists and individual videos. It fetches detailed metadata, optionally downloads videos and subtitles, and generates professional, easy-to-read reports in XLSX, HTML, and PDF formats.
 
-    Batch Processing: Process multiple YouTube playlists and single video URLs/IDs in one go.
+🔑 Key Features
 
-    Video Archiving: Download videos, thumbnails, subtitles, and .info.json metadata files.
+Batch Processing: Process multiple YouTube playlists and single video URLs/IDs in one go.
 
-    Cookie Support: Use browser cookies to download age-restricted, private, or members-only videos.
+Video Archiving: Download videos, thumbnails, subtitles, and .info.json metadata files.
 
-    High-Quality Downloads: Automatically selects the best video and audio formats and merges them for resolutions like 1080p and higher.
+Cookie Support: Use browser cookies to download age-restricted, private, or members-only videos.
 
-    Multi-Format Reporting:
+High-Quality Downloads: Automatically selects the best video/audio formats and merges them (e.g., for 1080p).
 
-        Excel (.xlsx): A spreadsheet with video details and embedded thumbnails.
+Multi-Format Reporting:
 
-        HTML (.html): A modern, interactive, and searchable local webpage with links.
+Excel (.xlsx): Spreadsheet with video metadata and embedded thumbnails.
 
-        PDF (.pdf): A clean, portable summary of all processed videos, featuring Unicode-compatible fonts for full character support.
+HTML (.html): Interactive, searchable local webpage with video links.
 
-    Efficient: Downloads all thumbnails concurrently to speed up the process.
+PDF (.pdf): Portable, clean summary report with full Unicode support.
 
-    Highly Configurable: Easily manage all settings from a single config.ini file.
+Efficient: Concurrent thumbnail downloads improve performance.
 
-Requirements & Setup
+Highly Configurable: Controlled entirely through a single config.ini file.
 
-Follow these steps to set up the project.
+⚙️ Requirements & Setup
+
 1. Install FFmpeg
 
-This is a critical dependency for downloading high-quality video. The executable must be placed in the project's root folder.
+This is a critical dependency for downloading high-quality video/audio.
 
-    Go to the official FFmpeg Builds page: ffmpeg.org/download.html. The "gyan.dev" or "BtbN" builds are excellent choices.
+Download FFmpeg from: ffmpeg.org/download.html(Recommended: gyan.dev builds or BtbN builds)
 
-    Download the latest release for your operating system (e.g., Windows, macOS, Linux).
+Extract the downloaded archive.
 
-    Unzip the downloaded archive.
+Find the ffmpeg executable in the bin folder.
 
-    Find the main executable file inside the bin folder (it will be ffmpeg.exe on Windows, or just ffmpeg on macOS/Linux).
+Copy it to the root of your YT-Ledger folder (same level as main.py):
 
-    Copy that single executable file into the root of your YT-Ledger project folder, right next to main.py.
+ffmpeg.exe on Windows
+
+ffmpeg on macOS/Linux
 
 2. Get the Fonts for PDF Reports
 
-The project uses the DejaVu font family for its excellent Unicode support in PDF reports. For your convenience, the required font files are included in the fonts folder of this repository.
-3. Clone the Project & Set Up the Environment
+The PDF generator uses DejaVu fonts for full Unicode compatibility. Font files are already included in the fonts/ directory.
 
-    Clone the Repository:
-    Generated bash
+3. Clone the Project & Set Up Environment
 
-      
+Clone the Repo:
+
 git clone https://github.com/nathanfx330/YT-Ledger.git
 cd YT-Ledger
 
-    
+Set Up Python Environment
 
-IGNORE_WHEN_COPYING_START
-Use code with caution. Bash
-IGNORE_WHEN_COPYING_END
+Choose one of the following:
 
-Set up the Python Environment (choose one method):
+A) Using pip + venv:
 
-A) Using pip and venv :
-Generated bash
-
-      
-# Create and activate a virtual environment
 python -m venv venv
-# On Windows:
+# Activate the virtual environment
+# Windows:
 .\venv\Scripts\activate
-# On macOS/Linux:
+# macOS/Linux:
 source venv/bin/activate
 
-# Install the locked package versions
 pip install -r requirements.txt
 
-    
+B) Using Conda (Recommended):
 
-IGNORE_WHEN_COPYING_START
-Use code with caution. Bash
-IGNORE_WHEN_COPYING_END
-
-B) Using Conda (Recommended) :
-Generated bash
-
-      
-# Create and activate the conda environment from the provided file
 conda env create -f environment.yml
 conda activate yt-ledger
 
-    
+🛠️ Configuration
 
-IGNORE_WHEN_COPYING_START
+4. Create Your config.ini File
 
-    Use code with caution. Bash
-    IGNORE_WHEN_COPYING_END
-
-4. Prepare the Configuration File
-
-The script is controlled by a config.ini file. A template is provided.
-Generated bash
-
-      
-# Copy the template to create your own personal config file
 cp config.template.ini config.ini
 
-    
+Edit config.ini in your preferred text editor. At a minimum, set:
 
-IGNORE_WHEN_COPYING_START
-Use code with caution. Bash
-IGNORE_WHEN_COPYING_END
+playlist_id under [youtube]
 
-Note: config.ini is intentionally ignored by Git to prevent you from accidentally sharing your personal playlist IDs or settings.
-Usage
+ffmpeg_location under [downloads]
 
-    Customize config.ini:
-    Open config.ini with a text editor. At a minimum, you must provide a playlist_id and ensure the ffmpeg_location points to the executable you placed in the root folder. If you need to download private or age-restricted content, provide a path to your cookies.txt file.
+For age-restricted/private content, provide your cookies.txt path under cookies_file.
 
-    Run the Script:
-    Once your environment is activated and your configuration is set, run the main script from your terminal:
-    Generated bash
+🚀 Usage
 
-      
+Once your environment is activated and configuration is ready, run the script:
+
 python main.py
 
-    
+Progress is logged to both the console and yt_ledger.log.
 
-IGNORE_WHEN_COPYING_START
+📄 Configuration Reference (config.ini)
 
-    Use code with caution. Bash
-    IGNORE_WHEN_COPYING_END
+Section
 
-    The script will log its progress to both the console and the yt_ledger.log file.
+Setting
 
-Configuration (config.ini)
+Description
 
-All settings are managed in config.ini.
-Section	Setting	Description
-[youtube]	playlist_id	Required. A + separated list of YouTube playlist IDs, video IDs, or full URLs.
-[youtube]	report_title	An optional title for your reports. If left blank, a default title with the current date is used.
-[downloads]	download_videos	Set to true to download videos or false to only fetch metadata for reports.
-[downloads]	video_folder	The directory where videos and their metadata will be saved.
-[downloads]	archive_file	Path to a .txt file used to track and skip already downloaded videos. Leave blank to disable.
-[downloads]	cookies_file	Optional. Path to a cookies.txt file to access private or age-restricted content. Leave blank to disable.
-[downloads]	preferred_resolution	The maximum video resolution to download (e.g., 1080, 720).
-[downloads]	ffmpeg_location	Path to the FFmpeg executable. Must be set correctly for your OS (e.g., ./ffmpeg.exe for Windows, ./ffmpeg for macOS/Linux).
-[outputs]	output_file_xls	Filename for the generated Excel report.
-[outputs]	output_file_html	Filename for the generated HTML report.
-[outputs]	output_file_pdf	Filename for the generated PDF report.
-[outputs]	thumbs_folder	The directory where video thumbnails will be saved.
-[outputs]	show_footer_watermark	Set to false to hide the "Generated by..." text in the PDF footer for a cleaner look.
-License
+[youtube]
 
-This project is licensed under the MIT License. See the LICENSE file for the full text.
+playlist_id
 
-Copyright (c) 2025 Nathaniel Westveer
-Acknowledgements
+Required. A + separated list of playlist IDs, video IDs, or URLs.
 
-    The incredible team behind yt-dlp for creating such a powerful and versatile tool.
 
-    This project includes the DejaVu Fonts, which are distributed under their own permissive license. The full license text is available in the fonts/dejavu-fonts LICENSE.txt file.
+
+report_title
+
+Optional title for reports. If blank, uses the current date.
+
+[downloads]
+
+download_videos
+
+true to download videos; false for metadata-only reports.
+
+
+
+video_folder
+
+Folder to save videos and metadata.
+
+
+
+archive_file
+
+Path to a .txt file for download history (leave blank to disable).
+
+
+
+cookies_file
+
+Optional path to cookies.txt for private/age-restricted access.
+
+
+
+preferred_resolution
+
+Max resolution to download (e.g., 1080).
+
+
+
+ffmpeg_location
+
+Path to FFmpeg executable (e.g., ./ffmpeg.exe or ./ffmpeg).
+
+[outputs]
+
+output_file_xls
+
+Filename for Excel report.
+
+
+
+output_file_html
+
+Filename for HTML report.
+
+
+
+output_file_pdf
+
+Filename for PDF report.
+
+
+
+thumbs_folder
+
+Folder to store downloaded thumbnails.
+
+
+
+show_footer_watermark
+
+Set to false to remove the footer watermark from PDF.
+
+📜 License
+
+This project is licensed under the MIT License.See the LICENSE file for full terms.
+
+🙏 Acknowledgements
+
+Huge thanks to the yt-dlp team for their outstanding work.
+
+This project includes DejaVu Fonts, distributed under a permissive license (see fonts/dejavu-fonts/LICENSE.txt).
+
+Let me know if you'd like a short badge section, project logo, or automated deployment instructions added.
