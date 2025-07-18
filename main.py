@@ -45,7 +45,7 @@ def stream_handler(stream, log_level_info, log_level_warn):
                 else:
                     log_level_info(f"[yt-dlp] {line_stripped}")
 
-def process_playlist_with_yt_dlp(playlist_urls, single_video_ids, video_folder, preferred_resolution, ffmpeg_location, download_videos_flag, archive_file):
+def process_playlist_with_yt_dlp(playlist_urls, single_video_ids, video_folder, preferred_resolution, ffmpeg_location, download_videos_flag, archive_file, cookies_file):
     """
     Uses yt-dlp to fetch video information from playlists and single videos, optionally downloading them.
     """
@@ -60,6 +60,12 @@ def process_playlist_with_yt_dlp(playlist_urls, single_video_ids, video_folder, 
                     'yt-dlp', '--ignore-config', '--no-warnings',
                     '--ignore-errors', '--flat-playlist', '--print', '%(id)s', playlist_url
                 ]
+
+                # --- ADD COOKIES TO PLAYLIST SCAN ---
+                if cookies_file and cookies_file.exists():
+                    logging.info(f"  -> Using cookies from: {cookies_file}")
+                    command += ['--cookies', str(cookies_file)]
+
                 process = subprocess.run(command, capture_output=True, text=True, encoding='utf-8', check=True)
                 
                 playlist_specific_ids = {line for line in process.stdout.splitlines() if line.strip()}
@@ -105,6 +111,11 @@ def process_playlist_with_yt_dlp(playlist_urls, single_video_ids, video_folder, 
             command += ['--download-archive', str(archive_file)]
         else:
             logging.info("  -> Archive functionality is OFF. All videos will be processed.")
+
+        # --- ADD COOKIES TO MAIN DOWNLOAD/METADATA COMMAND ---
+        if cookies_file and cookies_file.exists():
+            logging.info(f"  -> Using cookies from: {cookies_file}")
+            command += ['--cookies', str(cookies_file)]
 
         if download_videos_flag:
             video_folder.mkdir(parents=True, exist_ok=True)
@@ -308,6 +319,10 @@ def main():
         
         archive_file_str = config.get('downloads', 'archive_file', fallback='').strip()
         archive_file = Path(archive_file_str) if archive_file_str else None
+
+        # --- READ COOKIES FILE PATH FROM CONFIG ---
+        cookies_file_str = config.get('downloads', 'cookies_file', fallback='').strip()
+        cookies_file = Path(cookies_file_str) if cookies_file_str else None
         
         output_xls = Path(config.get('outputs', 'output_file_xls'))
         output_html = Path(config.get('outputs', 'output_file_html'))
@@ -360,7 +375,7 @@ def main():
 
     video_list = process_playlist_with_yt_dlp(
         playlist_urls, single_video_ids, video_folder, preferred_resolution, 
-        ffmpeg_location, download_videos_flag, archive_file
+        ffmpeg_location, download_videos_flag, archive_file, cookies_file
     )
     
     if not video_list:
