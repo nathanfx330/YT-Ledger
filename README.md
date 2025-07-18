@@ -77,7 +77,7 @@ conda activate yt-ledger
 ### 4. Create Your `config.ini` File
 
 ```bash
-cp config.template.ini config.ini
+ config.ini
 ```
 
 Edit `config.ini` in your preferred text editor. At a minimum, set:
