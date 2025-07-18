@@ -18,24 +18,38 @@ def create_html_report(video_list, thumb_map, report_title, project_name, templa
         return
 
     video_rows_html = ""
+    # The base directory for creating relative paths is the parent of the HTML output file
+    html_base_dir = output_filename.parent
+
     for video_data in video_list:
         video_id = video_data.get('id')
         video_title = video_data.get('title', 'N/A')
-        channel_name = video_data.get('channel', 'N/A') # Get channel name
+        channel_name = video_data.get('channel', 'N/A')
         youtube_url = f"https://www.youtube.com/watch?v={video_id}"
 
         thumb_src = ""
         if video_id in thumb_map:
             try:
-                relative_thumb_path = thumb_map[video_id].relative_to(output_filename.parent)
+                # Create a path for the thumbnail relative to the HTML file's location
+                relative_thumb_path = thumb_map[video_id].relative_to(html_base_dir)
                 thumb_src = quote(relative_thumb_path.as_posix())
-            except Exception:
-                thumb_src = quote(str(thumb_map[video_id]))
+            except ValueError:
+                # Fallback if the path cannot be made relative (e.g., different drive on Windows)
+                thumb_src = quote(thumb_map[video_id].as_uri())
 
         video_path = video_data.get('video_path')
         if video_path and video_path.name != "Not Downloaded":
-            absolute_path = video_path.resolve().as_uri()
-            local_file_html = f'<td><a class="local-file-link" href="{absolute_path}" target="_blank">Watch Local File</a></td>'
+            # --- THIS IS THE FIX ---
+            # Create a relative path from the HTML file to the video file.
+            # Then, URL-encode it to handle spaces and special characters safely.
+            try:
+                relative_video_path = video_path.relative_to(html_base_dir)
+                local_file_href = quote(relative_video_path.as_posix())
+            except ValueError:
+                # Fallback to absolute URI if a relative path can't be made
+                local_file_href = video_path.as_uri()
+            
+            local_file_html = f'<td><a class="local-file-link" href="{local_file_href}" target="_blank">Watch Local File</a></td>'
         else:
             local_file_html = '<td>Not Downloaded</td>'
 
