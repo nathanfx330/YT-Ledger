@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+
+# Package Management
+*.egg-info/
+dist/
+build/
+
+# IDE / Editor specific
+.idea/
+.vscode/
+*.swp
+
+# YT-Ledger Project Files - DO NOT COMMIT OUTPUTS!
+/videos/
+/thumbs/
+/fonts/
+*.log
+*.xlsx
+*.html
+*.pdf
+*.txt
+
+# Ignore the configuration file by default to prevent leaking personal info.
+# Add a template or example file instead.
+config.ini
+
+# Optional: If you add ffmpeg executable to the folder
+ffmpeg.exe
+ffmpeg
