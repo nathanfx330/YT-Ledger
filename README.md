@@ -42,7 +42,7 @@ The project uses the DejaVu font family for its excellent Unicode support in PDF
 
 2.  **Set up the Python Environment (choose one method):**
 
-    **A) Using `pip` and `venv` (Recommended):**
+    **A) Using `pip` and `venv` :**
     ```bash
     # Create and activate a virtual environment
     python -m venv venv
@@ -55,7 +55,7 @@ The project uses the DejaVu font family for its excellent Unicode support in PDF
     pip install -r requirements.txt
     ```
 
-    **B) Using `Conda`:**
+    **B) Using `Conda` (Recommended) :**
     ```bash
     # Create and activate the conda environment from the provided file
     conda env create -f environment.yml
