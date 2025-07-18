@@ -1,0 +1,18 @@
+# Conda environment configuration for the YT-Ledger project.
+# Create the environment using the command: conda env create -f environment.yml
+# Activate the environment with: conda activate yt-ledger
+
+name: yt-ledger
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.10
+  - pip
+  - yt-dlp>=2023.12.30
+  - openpyxl>=3.1.2
+  - pillow>=10.1.0
+  - requests>=2.31.0
+  - fpdf2>=2.7.6
