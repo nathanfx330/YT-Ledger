@@ -45,7 +45,7 @@ def stream_handler(stream, log_level_info, log_level_warn):
                 else:
                     log_level_info(f"[yt-dlp] {line_stripped}")
 
-def process_playlist_with_yt_dlp(playlist_urls, single_video_ids, video_folder, preferred_resolution, ffmpeg_location, download_videos_flag, archive_file, cookies_file):
+def process_playlist_with_yt_dlp(playlist_urls, single_video_ids, video_folder, preferred_resolution, ffmpeg_location, download_videos_flag, archive_file):
     """
     Uses yt-dlp to fetch video information from playlists and single videos, optionally downloading them.
     """
@@ -100,10 +100,6 @@ def process_playlist_with_yt_dlp(playlist_urls, single_video_ids, video_folder, 
             'yt-dlp', '--ignore-config', '--print-json', '--ignore-errors',
         ]
 
-        if cookies_file and cookies_file.exists():
-            logging.info(f"  -> Using cookies from: {cookies_file}")
-            command += ['--cookies', str(cookies_file)]
-
         if archive_file:
             logging.info(f"  -> Archive functionality is ON. Using file: {archive_file}")
             command += ['--download-archive', str(archive_file)]
@@ -114,9 +110,7 @@ def process_playlist_with_yt_dlp(playlist_urls, single_video_ids, video_folder, 
             video_folder.mkdir(parents=True, exist_ok=True)
             command += [
                 '-o', str(output_template),
-                # --- THIS IS THE MODIFIED LINE ---
-                '-f', f'bestvideo[height<={preferred_resolution}]+bestaudio/best[height<={preferred_resolution}]',
-                # --- END OF MODIFICATION ---
+                '-f', f'bestvideo[ext=mp4][height<={preferred_resolution}]+bestaudio[ext=m4a]/best[ext=mp4]/best',
                 '--merge-output-format', 'mp4',
                 '--write-info-json', '--write-sub', '--write-auto-sub', '--sub-format', 'srt'
             ]
@@ -139,7 +133,7 @@ def process_playlist_with_yt_dlp(playlist_urls, single_video_ids, video_folder, 
             process.wait()
 
             if not stdout_lines:
-                logging.warning(f"  -> FAILED to get metadata for video {video_id}. It may have been skipped by the archive file or blocked by YouTube. Skipping.")
+                logging.warning(f"  -> FAILED to get metadata for video {video_id}. It may have been skipped by the archive file. Skipping.")
                 continue
 
             video_info = json.loads(stdout_lines[-1])
@@ -315,9 +309,6 @@ def main():
         archive_file_str = config.get('downloads', 'archive_file', fallback='').strip()
         archive_file = Path(archive_file_str) if archive_file_str else None
         
-        cookies_file_str = config.get('downloads', 'cookies_file', fallback='').strip()
-        cookies_file = Path(cookies_file_str) if cookies_file_str else None
-        
         output_xls = Path(config.get('outputs', 'output_file_xls'))
         output_html = Path(config.get('outputs', 'output_file_html'))
         output_pdf = Path(config.get('outputs', 'output_file_pdf'))
@@ -369,7 +360,7 @@ def main():
 
     video_list = process_playlist_with_yt_dlp(
         playlist_urls, single_video_ids, video_folder, preferred_resolution, 
-        ffmpeg_location, download_videos_flag, archive_file, cookies_file
+        ffmpeg_location, download_videos_flag, archive_file
     )
     
     if not video_list:
@@ -382,6 +373,7 @@ def main():
     create_spreadsheet(video_list, thumb_map, output_xls)
     create_html_report(video_list, thumb_map, report_title, project_name, template_html, output_html)
     
+    # --- The PDF module now handles its own configuration ---
     create_pdf_report(video_list, thumb_map, output_pdf, report_title, project_name)
     
     logging.info("\n\nAll tasks complete.")
