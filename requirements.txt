@@ -1,33 +1,10 @@
-
-**Notes on the packages:**
-
-*   **`yt-dlp`**: The core tool for downloading video information. It's good practice to specify a version you know works.
-*   **`openpyxl`**: For creating the Excel (`.xlsx`) report.
-*   **`Pillow`**: A fork of the Python Imaging Library (PIL), used for processing thumbnails before inserting them into the Excel file.
-*   **`requests`**: Used for downloading thumbnails efficiently.
-*   **`fpdf2`**: The library used to create PDF reports. It's the modern, maintained fork of `fpdf`.
-
-### 2. Conda `environment.yml`
-
-This file is for users of the Conda package manager. It's more powerful than `requirements.txt` as it can manage non-Python dependencies and specify the exact Python version.
-
-**`environment.yml`**
-```yml
-# Conda environment configuration for the YT-Ledger project.
-# Create the environment using the command: conda env create -f environment.yml
-# Activate the environment with: conda activate yt-ledger
-
-name: yt-ledger
-
-channels:
-  - conda-forge
-  - defaults
-
-dependencies:
-  - python=3.10
-  - pip
-  - yt-dlp>=2023.12.30
-  - openpyxl>=3.1.2
-  - pillow>=10.1.0
-  - requests>=2.31.0
-  - fpdf2>=2.7.6
+certifi==2024.7.4
+charset-normalizer==3.3.2
+et-xmlfile==1.1.0
+fpdf2==2.7.9
+idna==3.7
+openpyxl==3.1.5
+Pillow==10.4.0
+requests==2.32.3
+urllib3==2.2.2
+yt-dlp==2024.7.16
