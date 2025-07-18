@@ -145,5 +145,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
+## Special Thanks
 The incredible team behind yt-dlp for creating such a powerful and versatile tool.
 This project includes the DejaVu Fonts, which are distributed under their own permissive license. The full license text is available in the fonts/dejavu-fonts LICENSE.txt file.
